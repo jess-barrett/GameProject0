@@ -24,7 +24,7 @@ namespace GameProject0
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _screenManager = new ScreenManager();
-            _screenManager.SetScreen(new TitleScreen(), Content, GraphicsDevice);
+            _screenManager.SetScreen(new TitleScreen(_screenManager), Content, GraphicsDevice);
         }
 
         protected override void Update(GameTime gameTime)

@@ -23,6 +23,13 @@ namespace GameProject0.Screens
 
         private SpriteFont _font;
 
+        private ScreenManager _screenManager;
+
+        public TitleScreen(ScreenManager screenManager)
+        {
+            _screenManager = screenManager;
+        }
+
         public override void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
             base.LoadContent(content, graphicsDevice);
@@ -55,8 +62,18 @@ namespace GameProject0.Screens
             var kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.Enter))
             {
-                // TODO: switch to gameplay screen
-                Environment.Exit(0);
+                var room1 = new Room(
+                    "Room1",
+                    "CobblestoneBlock",
+                    new List<Vector2>
+                    {
+                        new Vector2(50, 300),
+                        new Vector2(66, 300),
+                        new Vector2(82, 300)
+                    }
+                );
+
+                _screenManager.SetScreen(new GameplayScreen(room1), Content, GraphicsDevice);
             }
             else if (kb.IsKeyDown(Keys.Escape))
             {
