@@ -25,6 +25,8 @@ namespace GameProject0.Screens
 
         private ScreenManager _screenManager;
 
+        private KeyboardState _previousKb;
+
         public TitleScreen(ScreenManager screenManager)
         {
             _screenManager = screenManager;
@@ -60,31 +62,27 @@ namespace GameProject0.Screens
             _bat.Update(gameTime);
 
             var kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Keys.Enter))
+            if (kb.IsKeyDown(Keys.Enter) && !_previousKb.IsKeyDown(Keys.Enter))
             {
                 var room1 = new Room(
                     "Room1",
-                    "CobblestoneBlock",
-                    new List<Vector2>
-                    {
-                        new Vector2(50, 300),
-                        new Vector2(66, 300),
-                        new Vector2(82, 300)
-                    }
+                    "CobblestoneBlock"
                 );
 
                 _screenManager.SetScreen(new GameplayScreen(room1), Content, GraphicsDevice);
             }
-            else if (kb.IsKeyDown(Keys.Escape))
+            else if (kb.IsKeyDown(Keys.Escape) && !_previousKb.IsKeyDown(Keys.Escape))
             {
                 // Exit the game entirely
                 Environment.Exit(0);
             }
+
+            _previousKb = kb;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             // Background
             var viewport = GraphicsDevice.Viewport;
@@ -108,7 +106,7 @@ namespace GameProject0.Screens
             _bat.Draw(spriteBatch);
 
             // Draw instructions text
-            string instructions = "Press ESC to Quit";
+            string instructions = "Press ENTER to Start\nPress ESC to Quit";
 
             var textSize = _font.MeasureString(instructions);
             var textX = (viewport.Width - textSize.X) / 2;
