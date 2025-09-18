@@ -49,8 +49,16 @@ namespace GameProject0
 
             // Horizontal movement
             _velocity.X = 0;
-            if (kbState.IsKeyDown(Keys.D)) _velocity.X = _speed;
-            if (kbState.IsKeyDown(Keys.A)) _velocity.X = -_speed;
+
+            if (kbState.IsKeyDown(Keys.D) && !kbState.IsKeyDown(Keys.A))
+            {
+                _velocity.X = _speed;
+            }
+            else if (kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D))
+            {
+                _velocity.X = -_speed;
+            }
+            // else _velocity.X stays 0 (idle) if both or neither are pressed
 
             // Apply horizontal movement
             Position.X += (int)_velocity.X;
@@ -72,7 +80,7 @@ namespace GameProject0
             // Handle vertical collisions
             HandleVerticalCollisions(floorColliders);
 
-            // Animate, passing jumping state
+            // Animate
             Animate(gameTime, kbState);
         }
 
@@ -109,12 +117,12 @@ namespace GameProject0
             _frameTimer += gameTime.ElapsedGameTime.TotalSeconds;
             int startFrame, endFrame;
 
-            if (kbState.IsKeyDown(Keys.D))
+            if (kbState.IsKeyDown(Keys.D) && !kbState.IsKeyDown(Keys.A))
             {
                 startFrame = 2;
                 endFrame = 5;
             }
-            else if (kbState.IsKeyDown(Keys.A))
+            else if (kbState.IsKeyDown(Keys.A) && !kbState.IsKeyDown(Keys.D))
             {
                 startFrame = 6;
                 endFrame = 9;
